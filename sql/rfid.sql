@@ -3,18 +3,15 @@ create database rfid;
 use rfid;
 
 CREATE TABLE IF NOT EXISTS `rfid` (
-    `countRFID` integer auto_increment NOT NULL,
+    -- `countRFID` integer auto_increment NOT NULL,
     `rfidNo` varchar(20) NOT NULL,
     `employeeName` varchar(50) NOT NULL,
-    `dateTimeAdded` timestamp NOT NULL,
-    constraint countRFID_pk primary key (countRFID)
+    `dateTimeAdded` date NOT NULL,
+    constraint rfidNo_pk primary key (rfidNo)
 );
 
-
-/* Enrolment */
 insert into rfid
-values (1, "123456789", "user1", "2021-11-22 00:00:01");
+values ("123456789", "user1", "2021-11-22");
 
 insert into rfid
-values (2, "987654321", "user2", "2021-03-22 00:00:01");
-
+values ("987654321", "user2", "2021-03-22");

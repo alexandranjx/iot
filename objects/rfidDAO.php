@@ -5,7 +5,7 @@ class rfidDAO{
     public function addRFID($rfidNo, $employeeName)
     {
         date_default_timezone_set( 'Asia/Singapore');
-        $today = date("Y-m-d H:i:s");
+        $today = date("Y-m-d");
         $conn_manager = new ConnectionManager();
         $pdo = $conn_manager->getConnection("rfid");
         
@@ -56,7 +56,7 @@ class rfidDAO{
         $rfid = [];
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         while ($row = $stmt->fetch()) {
-            $rfid[] = new rfid($row["countRFID"], $row["rfidNo"], $row["employeeName"], $row["dateTimeAdded"]);
+            $rfid[] = new rfid($row["rfidNo"], $row["employeeName"], $row["dateTimeAdded"]);
         }
 
         $stmt = null;

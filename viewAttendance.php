@@ -1,7 +1,7 @@
 <?php
 require_once "objects/autoload.php";
-$dao = new rfidDAO();
-$rfid = $dao->retrieve();
+$dao = new attendanceDAO();
+$rfid = $dao->retrieveAttendance();
 // var_dump($rfid);
 ?>
 <!DOCTYPE html>
@@ -59,7 +59,7 @@ $rfid = $dao->retrieve();
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="attendance.php"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="viewAttendance.php"
                                 aria-expanded="false">
                                 <i class="fa fa-table" aria-hidden="true"></i>
                                 <span class="hide-menu">Attendance Table</span>
@@ -138,17 +138,19 @@ $rfid = $dao->retrieve();
                                     </thead>
                                     <tbody>
                                         <?php
+                                            $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             foreach ($rfid as $rfid1){
                                                 $employeeName = $rfid1->getEmployeeName();
                                                 echo "<tr value='$employeeName'>
-                                                    <td> {$rfid1->getcountRFID()}</td>
+                                                    <td> {$i}</td>
                                                     <td> {$rfid1->getRFID()}</td>
                                                     <td> {$rfid1->getEmployeeName()}</td>
-                                                    <td> </td>
-                                                    <td> </td>
+                                                    <td> {$rfid1->getStartTime()}</td>
+                                                    <td> {$rfid1->getEndTime()}</td>
                                                     <td class='current_date'> </td>
                                                 </tr>";
+                                                $i++;
                                             }
                                         ?>
                                     </tbody>
@@ -223,6 +225,11 @@ $rfid = $dao->retrieve();
         });
 
     </script>
+
+<script>
+
+
+</script>
 
     
 </body>

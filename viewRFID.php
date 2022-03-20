@@ -59,7 +59,7 @@ $rfid = $dao->retrieve();
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="attendance.php"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="viewAttendance.php"
                                 aria-expanded="false">
                                 <i class="fa fa-table" aria-hidden="true"></i>
                                 <span class="hide-menu">Attendance Table</span>
@@ -139,10 +139,11 @@ $rfid = $dao->retrieve();
                                         <?php
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             
+                                            $i=1;
                                             foreach ($rfid as $rfid1){
                                                 $employeeName = $rfid1->getEmployeeName();
                                                 echo "<tr value='$employeeName'>
-                                                    <td> {$rfid1->getcountRFID()}</td>
+                                                    <td> {$i}</td>
                                                     <td> {$rfid1->getRFID()}</td>
                                                     <td> {$rfid1->getEmployeeName()}</td>
                                                     <td> {$rfid1->getDateTimeAdded()}</td>
@@ -150,6 +151,7 @@ $rfid = $dao->retrieve();
                                                         <a class='btn btn-success' href='deleteRFID.php?rfidNumber={$rfid1->getRFID()}' role='button'>Delete</a>
                                                     </td>
                                                 </tr>";
+                                                $i++;
                                             }
                                         ?>
                                     </tbody>
@@ -175,13 +177,6 @@ $rfid = $dao->retrieve();
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
     
-    <!-- <script>
-        date = new Date();
-        year = date.getFullYear();
-        month = date.getMonth() + 1;
-        day = date.getDate();
-        document.getElementById("current_date").innerHTML = day + "-" + month + "-" + year;
-    </script> -->
 
     <script>
         function search() {
