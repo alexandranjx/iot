@@ -194,28 +194,32 @@ $rfid = $dao->retrieve();
         function filterDate() {
                 input = document.getElementById("filterDate");
                 ul = document.getElementById("myUL");
-                li = document.getElementsByTagName("li");
-    
-                for (i = 0; i < li.length; i++) {
-                    courseStartDate = li[i].getAttribute("value");
-                    if (input.value == courseStartDate) {
-                        li[i].style.display = "";
+                tr = document.getElementsByTagName("tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    Array.prototype.forEach.call(elements, function(element) {
+                    todayDate = element.innerHTML;
+                    if (input.value == todayDate) {
+                        tr[i].style.display = "";
                     } else {
-    
-                        li[i].style.display = "none";
+
+                        tr[i].style.display = "none";
                     }
-                }
-    
+                })
+            };
             }
 
         date = new Date();
         year = date.getFullYear();
         month = date.getMonth() + 1;
+        if(month <10){
+            month = '0'+month;
+        }
         day = date.getDate();
 
         var elements = document.getElementsByClassName('current_date');
         Array.prototype.forEach.call(elements, function(element) {
-            element.innerHTML = day + "-" + month + "-" + year;
+            element.innerHTML = (year + "-" + month + "-" + day);
         });
 
     </script>
