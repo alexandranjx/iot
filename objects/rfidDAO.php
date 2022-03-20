@@ -9,7 +9,7 @@ class rfidDAO{
         $conn_manager = new ConnectionManager();
         $pdo = $conn_manager->getConnection("rfid");
         
-        $sql = "insert into rfid (rfidNo, employeeName, dateTimeEnrolled) values (:rfidNo,:employeeName, :today);";
+        $sql = "insert into rfid (rfidNo, employeeName, dateTimeAdded) values (:rfidNo,:employeeName, :today);";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":today", $today);
         $stmt->bindParam(":rfidNo", $rfidNo);
@@ -26,25 +26,22 @@ class rfidDAO{
         return false;
     }
 
-    // public function retrieve()
-    // {
-    //     $conn_manager = new ConnectionManager();
-    //     $pdo = $conn_manager->getConnection("rfid");
+    public function deleteRFID($rfidNo)
+    {
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection("rfid");
+        $sql = "delete from rfid where rfidNo =:rfidNo";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":rfidNo", $rfidNo);
+   
+  
+        if ($stmt->execute()) {
+            $stmt = null;
+            $pdo = null;
+            return true;
+        }
+    }
         
-    //     $sql = "select * from rfid";
-    //     $stmt = $pdo->prepare($sql);
-    //     $stmt->execute();
-        
-    //     $rfid = null;
-    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     if ($row = $stmt->fetch()) {
-    //         $rfid = new rfid($row["indexNo"], $row["rfidNo"], $row["employeeName"], $row["datetime"]);
-    //     }
-        
-    //     $stmt = null;
-    //     $pdo = null;
-    //     return $rfid;
-    // }
 
     public function retrieve()
     {

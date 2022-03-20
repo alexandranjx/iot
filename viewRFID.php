@@ -59,7 +59,7 @@ $rfid = $dao->retrieve();
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="attendance.php"
                                 aria-expanded="false">
                                 <i class="fa fa-table" aria-hidden="true"></i>
                                 <span class="hide-menu">Attendance Table</span>
@@ -111,8 +111,9 @@ $rfid = $dao->retrieve();
                             <h3 class="box-title">List of RFID</h3>
                             <br> 
                                 <div class="d-md-flex">
+                                    
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search RFID here" onkeyup="search()">
+                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Employee here" onkeyup="search()">
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
@@ -131,17 +132,23 @@ $rfid = $dao->retrieve();
                                             <th class="border-top-0">RFID Number</th>
                                             <th class="border-top-0">Employee Name</th>
                                             <th class="border-top-0">Add Date</th>
+                                            <th class="border-top-0"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
+                                            
                                             foreach ($rfid as $rfid1){
-                                                echo "<tr>
+                                                $employeeName = $rfid1->getEmployeeName();
+                                                echo "<tr value='$employeeName'>
                                                     <td> {$rfid1->getcountRFID()}</td>
                                                     <td> {$rfid1->getRFID()}</td>
                                                     <td> {$rfid1->getEmployeeName()}</td>
                                                     <td> {$rfid1->getDateTimeAdded()}</td>
+                                                    <td> 
+                                                        <a class='btn btn-success' href='deleteRFID.php?rfidNumber={$rfid1->getRFID()}' role='button'>Delete</a>
+                                                    </td>
                                                 </tr>";
                                             }
                                         ?>
@@ -168,12 +175,29 @@ $rfid = $dao->retrieve();
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
     
-    <script>
+    <!-- <script>
         date = new Date();
         year = date.getFullYear();
         month = date.getMonth() + 1;
         day = date.getDate();
         document.getElementById("current_date").innerHTML = day + "-" + month + "-" + year;
+    </script> -->
+
+    <script>
+        function search() {
+            input = document.getElementById("searchRFID");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = document.getElementsByTagName("tr");
+            for (i = 1; i < li.length; i++) {
+                employeeName = li[i].getAttribute("value");
+                if (employeeName.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
     </script>
 
     

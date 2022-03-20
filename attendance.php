@@ -1,8 +1,13 @@
+<?php
+require_once "objects/autoload.php";
+$dao = new rfidDAO();
+$rfid = $dao->retrieve();
+// var_dump($rfid);
+?>
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,19 +16,14 @@
     <meta name="description"
         content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>Ample Admin Lite Template by WrapPixel</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
     <!-- Custom CSS -->
    <link href="css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <title>Employee Attendance</title>
 </head>
+
 
 <body>
     <!-- ============================================================== -->
@@ -59,7 +59,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="basic-table.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="attendance.php"
                                 aria-expanded="false">
                                 <i class="fa fa-table" aria-hidden="true"></i>
                                 <span class="hide-menu">Attendance Table</span>
@@ -108,28 +108,49 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title">Staff Attendance</h3>
+                            <h3 class="box-title">Employee Attendance</h3>
+                            <br> 
+                                <div class="d-md-flex">
+                                    
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Employee here" onkeyup="search()">
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-4">
+                                        <label for="date">Filter Date:</label>
+                                        <input type="date" id="filterDate" name="filterDate">
+                                        <input type="submit" onclick="filterDate()" value="Search">
+                                    </div>
+                                </div>
+                            <hr>
                             
                             <div class="table-responsive">
                                 <table class="table text-nowrap">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">ID</th>
+                                            <th class="border-top-0">RFID Number</th>
+                                            <th class="border-top-0">Employee Name</th>
                                             <th class="border-top-0">Start Time</th>
                                             <th class="border-top-0">End Time</th>
-                                            <th class="border-top-0">Date</th>
+                                            <th class="border-top-0">Date</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Deshmukh</td>
-                                            <td>Prohaska</td>
-                                            <td>@Genelia</td>
-                                            <td id="current_date">  </td>
-                                        </tr>
-
+                                        <?php
+                                            echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
+                                            foreach ($rfid as $rfid1){
+                                                $employeeName = $rfid1->getEmployeeName();
+                                                echo "<tr value='$employeeName'>
+                                                    <td> {$rfid1->getcountRFID()}</td>
+                                                    <td> {$rfid1->getRFID()}</td>
+                                                    <td> {$rfid1->getEmployeeName()}</td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                    <td class='current_date'> </td>
+                                                </tr>";
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -142,8 +163,6 @@
 
     </div>
 
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
     <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -154,14 +173,54 @@
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
-    <div id="current_date"></p>
-        <script>
+    
+
+    <script>
+        function search() {
+            input = document.getElementById("searchRFID");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = document.getElementsByTagName("tr");
+            for (i = 1; i < li.length; i++) {
+                employeeName = li[i].getAttribute("value");
+                if (employeeName.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        function filterDate() {
+                input = document.getElementById("filterDate");
+                ul = document.getElementById("myUL");
+                li = document.getElementsByTagName("li");
+    
+                for (i = 0; i < li.length; i++) {
+                    courseStartDate = li[i].getAttribute("value");
+                    if (input.value == courseStartDate) {
+                        li[i].style.display = "";
+                    } else {
+    
+                        li[i].style.display = "none";
+                    }
+                }
+    
+            }
+
         date = new Date();
         year = date.getFullYear();
         month = date.getMonth() + 1;
         day = date.getDate();
-        document.getElementById("current_date").innerHTML = day + "-" + month + "-" + year;
-        </script>
+
+        var elements = document.getElementsByClassName('current_date');
+        Array.prototype.forEach.call(elements, function(element) {
+            element.innerHTML = day + "-" + month + "-" + year;
+        });
+
+    </script>
+
+    
 </body>
 
 </html>

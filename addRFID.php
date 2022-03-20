@@ -16,86 +16,26 @@
 <body>
     <div class="container" id="app">
         <div class="row justify-content-center">
-            <div class="col-sm-12 text-center">
-                <h1>Add RFID</h1>
-            </div>
+ 
             <div class="col-sm-6 text-center mt-4">
-                <form action="ProcessAddQuiz.php" method="POST">
+                <form action="processAddRFID.php" method="POST">
                     <div class="form-group">
-                        <h4>Quiz Title<h4>
-                        <input type="text" class="form-control" name="quiztitle" placeholder="Enter Quiz Title">
+                        <h4>Add RFID<h4>
                     </div>
-                    <div class="form-group">
-                        <h4>Quiz Duration<h4>
-                        <input type="number" class="form-control" name="quizduration" placeholder="Enter Duration in Minutes">
-                    </div>
-                    
-                    <div class="form-group" v-for="n in divs">
-                        <h4>Question {{n}}</h4>
-                        <input type="text" class="form-control" v-bind:name="'setquestion'+n" placeholder="Set question">
-                        <label for="Marks"> Marks</label> 
-                        <div class="row justify-content-center">
-                            <div class="col-xs-2">
-                                <input class="form-control input-sm" type="number" v-bind:name="'marks'+n" placeholder="Enter Marks"> <br>
-                            </div>
-                        </div>
-                        <div class="form-check">
-                            <label for="QuestionType"> Question Type</label><br>
-                            
-                            <input class="form-check-input" type="radio" v-bind:name="'questiontype'+n" value="MCQ" v-model="picked[n]">
-                            <label class="form-check-label" for="MCQ">
-                                MCQ
-                            </label>
-                            <br>
-                            <input class="form-check-input" type="radio" v-bind:name="'questiontype'+n" value="TF" v-model="picked[n]">
-                            <label class="form-check-label" for="TF">
-                                True/False
-                            </label>
-                            <br><br>
-                            <div v-if="picked[n] =='MCQ' || picked[n]=='TF'">
-                                <h4>Answers</h4>
-                                Select the correct answer <br><br>
-                                <div v-if="picked[n] =='MCQ'" v-for="y in mcqnum[n-1].length">
-                                    Answer {{y}}
-                                    <input type="text" class="form-control" v-bind:name="'answer'+n+'ansnum'+y" placeholder="Set question answer">
-                                    <input class="form-check-input" type="radio" v-bind:name="'questionMCQ'+n" v-bind:value="'answer'+n+'ansnum'+y">
-                                    <label class="form-check-label">
-                                        Correct Answer
-                                    </label>
-                                    <br><br>
-                                </div>
-                                <br>
-                                <div class="btn-group" role="group">
-                                    <button v-if="picked[n] =='MCQ'" type="button" v-on:click="mcqnum[n-1].push(1);" class="btn btn-sm btn-danger">
-                                        Add Answer
-                                    </button>
-                                    <button v-if="picked[n] =='MCQ' && mcqnum[n-1].length>1" type="button" v-on:click="mcqnum[n-1].pop(1)" class="btn btn-sm btn-danger">
-                                        Remove Answer
-                                    </button>
-                                </div>
-                                <div v-if="picked[n] =='TF'">
-                                    <input class="form-check-input" type="radio" v-bind:name="'questionTF'+n" value="True">
-                                    <label class="form-check-label">
-                                        True
-                                    </label><br>
-                                    <input class="form-check-input" type="radio" v-bind:name="'questionTF'+n" value="False">
-                                    <label class="form-check-label">
-                                        False
-                                    </label>
-                                </div>
-                            </div>
+                  
+                    <div class="form-group row">
+                        <label for="rfidNumber" class="col col-form-label">RFID Number</label>
+                        <div class="col-sm">
+                        <input type="text" class="form-control" id="rfidNumber" name="rfidNumber" >
                         </div>
                     </div>
-                    <div>
-                    <div class="btn-group" role="group">
-                        <button type="button" v-on:click="divs+=1;mcqnum.push([1])" class="btn btn-info">
-                            Add Question
-                        </button>
-                        <button v-if="divs >1" type="button" v-on:click="divs-=1;" class="btn btn-info">
-                            Remove Question
-                        </button>
+                    <div class="form-group row">
+                        <label for="employeeName" class="col col-form-label">Employee Name</label>
+                        <div class="col-sm">
+                        <input type="text" class="form-control" id="employeeName" name="employeeName">
+                        </div>
                     </div>
-                    <br><br><br>
+
                     <button name='submit' type="submit" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </div>
@@ -107,5 +47,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+    <script>
+        date = new Date();
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("current_date").innerHTML = day + "-" + month + "-" + year;
+    </script>
+
+
 </body>
 </html>
