@@ -1,8 +1,8 @@
 <?php
 require_once "objects/autoload.php";
-$dao = new rfidDAO();
-$rfid = $dao->retrieve();
-// var_dump($rfid);
+$dao = new operatorDAO();
+$job = $dao->retrieveOperatorAttendance('Peter');
+//  var_dump($rfid);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,14 +21,11 @@ $rfid = $dao->retrieve();
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
     <!-- Custom CSS -->
    <link href="css/style.min.css" rel="stylesheet">
-    <title>Add/View RFID</title>
+    <title>Operator Activities</title>
 </head>
 
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
@@ -47,17 +44,12 @@ $rfid = $dao->retrieve();
                         <li>
                             <a class="profile-pic" href="#">
                                 <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
-                                    class="img-circle"><span class="text-white font-medium">Management 1</span></a>
+                                    class="img-circle"><span class="text-white font-medium">Peter</span></a>
                         </li>
                     </ul>
                 </div>
             </nav>
         </header>
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
@@ -66,41 +58,26 @@ $rfid = $dao->retrieve();
                     <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item pt-2">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="operatorHomepage.php"
                                 aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Dashboard</span>
+                                <span class="hide-menu">Track Activities</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="viewAttendance.php"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="operatorAttendance.php"
                                 aria-expanded="false">
                                 <i class="fa fa-table" aria-hidden="true"></i>
-                                <span class="hide-menu">Attendance Table</span>
+                                <span class="hide-menu">Attendance Checker</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="map-google.html"
-                                aria-expanded="false">
-                                <i class="fa fa-globe" aria-hidden="true"></i>
-                                <span class="hide-menu">Tracker GPS</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="viewRFID.php"
-                                aria-expanded="false">
-                                <i class="fa fa-columns" aria-hidden="true"></i>
-                                <span class="hide-menu">Add RFID Number</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="issuesReported.php"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="reportExcavator.php"
                                 aria-expanded="false">
                                 <i class="fa fa-cogs" aria-hidden="true"></i>
-                                <span class="hide-menu">Excavator Reports</span>
+                                <span class="hide-menu">Report Excavator</span>
                             </a>
                         </li>
 
@@ -130,18 +107,18 @@ $rfid = $dao->retrieve();
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title">List of RFID</h3>
+                            <h3 class="box-title">Attendance Check</h3>
                             <br> 
                                 <div class="d-md-flex">
                                     
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Employee here" onkeyup="search()">
+                                        <!-- <input type="text" class="form-control" id="searchDate" size="30" placeholder="Search Job Date" onkeyup="search()"> -->
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
-                                        <a href="addRFID.php" target="_blank"
-                                            class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
-                                        Add New RFID Number </a>
+                                        <label for="date">Filter Date:</label>
+                                        <input type="date" id="filterDate" name="filterDate">
+                                        <input type="submit" onclick="filterDate()" value="Search">
                                     </div>
                                 </div>
                             <hr>
@@ -151,27 +128,26 @@ $rfid = $dao->retrieve();
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">RFID Number</th>
-                                            <th class="border-top-0">Employee Name</th>
-                                            <th class="border-top-0">Add Date</th>
-                                            <th class="border-top-0"></th>
+                                            <th class="border-top-0">Excavator No.</th>
+                                            <th class="border-top-0">Clock In</th>
+                                            <th class="border-top-0">Clock Out</th>
+                                            <th class="border-top-0">Job Date</th> 
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
+                                    <?php
+                                            $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
-                                            
-                                            $i=1;
-                                            foreach ($rfid as $rfid1){
-                                                $employeeName = $rfid1->getEmployeeName();
-                                                echo "<tr value='$employeeName'>
-                                                    <td> {$i}</td>
-                                                    <td> {$rfid1->getRFID()}</td>
-                                                    <td> {$rfid1->getEmployeeName()}</td>
-                                                    <td> {$rfid1->getDateTimeAdded()}</td>
-                                                    <td> 
-                                                        <a class='btn btn-success' href='deleteRFID.php?rfidNumber={$rfid1->getRFID()}' role='button'>Delete</a>
-                                                    </td>
+                                            foreach ($job as $job1){
+                                                $employeeJob = $job1->getDateAdded();
+                                                echo "<tr value='{$employeeJob}'>
+                                                    <td> $i </td>
+                                                    <td> {$job1->getExcavatorNo()}</td>
+                                                    <td> {$job1->getStartTime()} </td>
+                                                    <td> {$job1->getEndTime()}</td>
+                                                    <td> {$job1->getDateAdded()}</td>
+                                                    
                                                 </tr>";
                                                 $i++;
                                             }
@@ -201,20 +177,37 @@ $rfid = $dao->retrieve();
     
 
     <script>
-        function search() {
-            input = document.getElementById("searchRFID");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = document.getElementsByTagName("tr");
-            for (i = 1; i < li.length; i++) {
-                employeeName = li[i].getAttribute("value");
-                if (employeeName.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
+        // function search() {
+        //     input = document.getElementById("searchDate");
+        //     filter = input.value.toUpperCase();
+        //     ul = document.getElementById("myUL");
+        //     li = document.getElementsByTagName("tr");
+        //     for (i = 1; i < li.length; i++) {
+        //         employeeJob = li[i].getAttribute("value");
+        //         if (employeeJob.toUpperCase().indexOf(filter) > -1) {
+        //             li[i].style.display = "";
+        //         } else {
+        //             li[i].style.display = "none";
+        //         }
+        //     }
+        // }
+
+        function filterDate() {
+                input = document.getElementById("filterDate");
+                ul = document.getElementById("myUL");
+                tr = document.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    employeeJob = tr[i].getAttribute("value");
+                    if (input.value == employeeJob) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+               
+            };
             }
-        }
+
+
     </script>
 
     

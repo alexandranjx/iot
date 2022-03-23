@@ -1,7 +1,7 @@
 <?php
 require_once "objects/autoload.php";
-$dao = new rfidDAO();
-$rfid = $dao->retrieve();
+$dao = new attendanceDAO();
+$rfid = $dao->retrieveAttendance();
 // var_dump($rfid);
 ?>
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ $rfid = $dao->retrieve();
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
     <!-- Custom CSS -->
    <link href="css/style.min.css" rel="stylesheet">
-    <title>Add/View RFID</title>
+    <title>Employee Attendance</title>
 </head>
 
 
@@ -130,7 +130,7 @@ $rfid = $dao->retrieve();
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title">List of RFID</h3>
+                            <h3 class="box-title">Employee Attendance</h3>
                             <br> 
                                 <div class="d-md-flex">
                                     
@@ -139,9 +139,9 @@ $rfid = $dao->retrieve();
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
-                                        <a href="addRFID.php" target="_blank"
-                                            class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
-                                        Add New RFID Number </a>
+                                        <label for="date">Filter Date:</label>
+                                        <input type="date" id="filterDate" name="filterDate">
+                                        <input type="submit" onclick="filterDate()" value="Search">
                                     </div>
                                 </div>
                             <hr>
@@ -153,25 +153,24 @@ $rfid = $dao->retrieve();
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">RFID Number</th>
                                             <th class="border-top-0">Employee Name</th>
-                                            <th class="border-top-0">Add Date</th>
-                                            <th class="border-top-0"></th>
+                                            <th class="border-top-0">Start Time</th>
+                                            <th class="border-top-0">End Time</th>
+                                            <th class="border-top-0">Date</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
+                                            $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
-                                            
-                                            $i=1;
                                             foreach ($rfid as $rfid1){
                                                 $employeeName = $rfid1->getEmployeeName();
                                                 echo "<tr value='$employeeName'>
                                                     <td> {$i}</td>
                                                     <td> {$rfid1->getRFID()}</td>
                                                     <td> {$rfid1->getEmployeeName()}</td>
-                                                    <td> {$rfid1->getDateTimeAdded()}</td>
-                                                    <td> 
-                                                        <a class='btn btn-success' href='deleteRFID.php?rfidNumber={$rfid1->getRFID()}' role='button'>Delete</a>
-                                                    </td>
+                                                    <td> {$rfid1->getStartTime()}</td>
+                                                    <td> {$rfid1->getEndTime()}</td>
+                                                    <td class='current_date'> </td>
                                                 </tr>";
                                                 $i++;
                                             }
@@ -215,7 +214,44 @@ $rfid = $dao->retrieve();
                 }
             }
         }
+
+        function filterDate() {
+                input = document.getElementById("filterDate");
+                ul = document.getElementById("myUL");
+                tr = document.getElementsByTagName("tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    Array.prototype.forEach.call(elements, function(element) {
+                    todayDate = element.innerHTML;
+                    if (input.value == todayDate) {
+                        tr[i].style.display = "";
+                    } else {
+
+                        tr[i].style.display = "none";
+                    }
+                })
+            };
+            }
+
+        date = new Date();
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        if(month <10){
+            month = '0'+month;
+        }
+        day = date.getDate();
+
+        var elements = document.getElementsByClassName('current_date');
+        Array.prototype.forEach.call(elements, function(element) {
+            element.innerHTML = (year + "-" + month + "-" + day);
+        });
+
     </script>
+
+<script>
+
+
+</script>
 
     
 </body>
