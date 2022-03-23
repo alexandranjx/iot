@@ -35,9 +35,24 @@ $rfid = $dao->retrieveAttendance();
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                    <ul class="navbar-nav ms-auto d-flex align-items-center">
+                        <li>
+                            <a class="profile-pic" href="#">
+                                <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
+                                    class="img-circle"><span class="text-white font-medium">Management 1</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
 
@@ -79,6 +94,13 @@ $rfid = $dao->retrieveAttendance();
                                 aria-expanded="false">
                                 <i class="fa fa-columns" aria-hidden="true"></i>
                                 <span class="hide-menu">Add RFID Number</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="issuesReported.php"
+                                aria-expanded="false">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                                <span class="hide-menu">Excavator Reports</span>
                             </a>
                         </li>
 

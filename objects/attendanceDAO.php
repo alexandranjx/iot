@@ -4,7 +4,7 @@ class attendanceDAO{
     public function retrieveAttendance()
     {
         $conn_manager = new ConnectionManager();
-        $pdo = $conn_manager->getConnection("rfid");
+        $pdo = $conn_manager->getConnection("iot");
 
         $sql = "select * from attendance";
         $stmt = $pdo->prepare($sql);
@@ -20,7 +20,6 @@ class attendanceDAO{
         $pdo = null;
         return $attendance;
     }
-
 
 }
 ?>

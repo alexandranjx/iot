@@ -1,8 +1,8 @@
 <?php
 require_once "objects/autoload.php";
-$dao = new rfidDAO();
-$rfid = $dao->retrieve();
-// var_dump($rfid);
+$dao = new excavatorDAO();
+$job = $dao->retrieveAll();
+//  var_dump($rfid);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,14 +21,11 @@ $rfid = $dao->retrieve();
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
     <!-- Custom CSS -->
    <link href="css/style.min.css" rel="stylesheet">
-    <title>Add/View RFID</title>
+    <title>Report Excavator</title>
 </head>
 
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
@@ -53,11 +50,6 @@ $rfid = $dao->retrieve();
                 </div>
             </nav>
         </header>
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
         <aside class="left-sidebar" data-sidebarbg="skin6">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
@@ -103,7 +95,6 @@ $rfid = $dao->retrieve();
                                 <span class="hide-menu">Excavator Reports</span>
                             </a>
                         </li>
-
                     </ul>
 
                 </nav>
@@ -112,7 +103,6 @@ $rfid = $dao->retrieve();
             <!-- End Sidebar scroll-->
         </aside>
 
-
         <div class="page-wrapper">
  
             <div class="page-breadcrumb bg-white">
@@ -120,58 +110,47 @@ $rfid = $dao->retrieve();
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
                         <!-- <h4 class="page-title">Staff Attendance Table</h4> -->
                     </div>
-
-                </div>
-         
-            </div>
-
-            <div class="container-fluid">
-
-                <div class="row">
+                    <div class="row">
                     <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title">List of RFID</h3>
+                            <h3 class="box-title">Report History</h3>
                             <br> 
-                                <div class="d-md-flex">
-                                    
+                            <div class="d-md-flex">
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Employee here" onkeyup="search()">
+                                        <input type="text" class="form-control" id="searchIssues" size="30" placeholder="Search Issues here" onkeyup="search()">
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
-                                        <a href="addRFID.php" target="_blank"
-                                            class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
-                                        Add New RFID Number </a>
+                            
                                     </div>
                                 </div>
                             <hr>
-                            
+                
                             <div class="table-responsive">
                                 <table class="table text-nowrap">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">RFID Number</th>
-                                            <th class="border-top-0">Employee Name</th>
-                                            <th class="border-top-0">Add Date</th>
-                                            <th class="border-top-0"></th>
+                                            <th class="border-top-0">Excavator No.</th>
+                                            <th class="border-top-0">Location</th>
+                                            <th class="border-top-0">Issue</th>
+                                            <th class="border-top-0">Report By</th>
+                                            <th class="border-top-0">Report Date</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
+                                    <?php
+                                            $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
-                                            
-                                            $i=1;
-                                            foreach ($rfid as $rfid1){
-                                                $employeeName = $rfid1->getEmployeeName();
-                                                echo "<tr value='$employeeName'>
-                                                    <td> {$i}</td>
-                                                    <td> {$rfid1->getRFID()}</td>
-                                                    <td> {$rfid1->getEmployeeName()}</td>
-                                                    <td> {$rfid1->getDateTimeAdded()}</td>
-                                                    <td> 
-                                                        <a class='btn btn-success' href='deleteRFID.php?rfidNumber={$rfid1->getRFID()}' role='button'>Delete</a>
-                                                    </td>
+                                            foreach ($job as $job1){
+                                                $employeeJob = $job1->getIssue();
+                                                echo "<tr value='{$employeeJob}'>
+                                                    <td> $i </td>
+                                                    <td> {$job1->getExcavatorNo()}</td>
+                                                    <td> {$job1->getLocation()}</td>
+                                                    <td> {$job1->getIssue()}</td>
+                                                    <td> {$job1->getEmployeeName()}</td>
+                                                    <td> {$job1->getDateAdded()}</td>
                                                 </tr>";
                                                 $i++;
                                             }
@@ -182,9 +161,10 @@ $rfid = $dao->retrieve();
                         </div>
                     </div>
                 </div>
+         
             </div>
-
         </div>
+
 
     </div>
 
@@ -202,19 +182,21 @@ $rfid = $dao->retrieve();
 
     <script>
         function search() {
-            input = document.getElementById("searchRFID");
+            input = document.getElementById("searchIssues");
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = document.getElementsByTagName("tr");
             for (i = 1; i < li.length; i++) {
-                employeeName = li[i].getAttribute("value");
-                if (employeeName.toUpperCase().indexOf(filter) > -1) {
+                employeeJob = li[i].getAttribute("value");
+                if (employeeJob.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
                 } else {
                     li[i].style.display = "none";
                 }
             }
         }
+
+
     </script>
 
     

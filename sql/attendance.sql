@@ -3,7 +3,6 @@ create database rfid;
 use rfid;
 
 CREATE TABLE IF NOT EXISTS `rfid` (
-    -- `countRFID` integer auto_increment NOT NULL,
     `rfidNo` varchar(20) NOT NULL,
     `employeeName` varchar(50) NOT NULL,
     `dateTimeAdded` date NOT NULL,
@@ -22,7 +21,9 @@ CREATE TABLE IF NOT EXISTS `attendance` (
     `employeeName` varchar(50) NOT NULL,
     `starttime` time  NOT NULL,
     `endtime` time  NOT NULL,
-    `dateTimeAdded` date NOT NULL
+    `dateTimeAdded` date NOT NULL,
+    constraint attendance_pk primary key (rfidNo)
+    
 );
 
 ALTER TABLE rfid.attendance
