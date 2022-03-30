@@ -1,7 +1,7 @@
 <?php
 require_once "objects/autoload.php";
-$dao = new attendanceDAO();
-$rfid = $dao->retrieveAttendance();
+$dao = new operatorDAO();
+$rfid = $dao->retrieveAllAttendance();
 // var_dump($rfid);
 ?>
 <!DOCTYPE html>
@@ -66,7 +66,7 @@ $rfid = $dao->retrieveAttendance();
                     <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item pt-2">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.php"
                                 aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>
                                 <span class="hide-menu">Dashboard</span>
@@ -152,6 +152,7 @@ $rfid = $dao->retrieveAttendance();
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">RFID Number</th>
+                                            <th class="border-top-0">Location</th>
                                             <th class="border-top-0">Employee Name</th>
                                             <th class="border-top-0">Start Time</th>
                                             <th class="border-top-0">End Time</th>
@@ -167,6 +168,7 @@ $rfid = $dao->retrieveAttendance();
                                                 echo "<tr value='$employeeName'>
                                                     <td> {$i}</td>
                                                     <td> {$rfid1->getRFID()}</td>
+                                                    <td> {$rfid1->getSite()}</td>
                                                     <td> {$rfid1->getEmployeeName()}</td>
                                                     <td> {$rfid1->getStartTime()}</td>
                                                     <td> {$rfid1->getEndTime()}</td>

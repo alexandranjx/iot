@@ -16,6 +16,17 @@ foreach ($job as $i){
 $dao1 = new rfidDAO();
 $rfidAll = count($dao1->retrieve());
 
+$count1 = 0;
+$dao2 = new excavatorDAO();
+$issues = $dao2->retrieveAll();
+foreach ($issues as $j){
+    if ($j->getDateAdded() == $today){
+        $count1 ++;
+    }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -36,22 +47,22 @@ $rfidAll = count($dao1->retrieve());
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
     <!-- Custom CSS -->
-    <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
+   <link href="css/style.min.css" rel="stylesheet">
+   <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
     <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
-    <!-- Custom CSS -->
-    <link href="css/style.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFKuE8yKyNAW4MCIsG0ha6N346WM0dJ7A"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
+    
 </head>
 
 <body>
-
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         <!-- ============================================================== -->
@@ -70,13 +81,11 @@ $rfidAll = count($dao1->retrieve());
                 </div>
             </nav>
         </header>
+
         <aside class="left-sidebar" data-sidebarbg="skin6">
-            <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <!-- User Profile-->
                         <li class="sidebar-item pt-2">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.php"
                                 aria-expanded="false">
@@ -108,6 +117,7 @@ $rfidAll = count($dao1->retrieve());
                                 <span class="hide-menu">Add RFID Number</span>
                             </a>
                         </li>
+
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="issuesReported.php"
                                 aria-expanded="false">
@@ -115,19 +125,16 @@ $rfidAll = count($dao1->retrieve());
                                 <span class="hide-menu">Excavator Reports</span>
                             </a>
                         </li>
+
                     </ul>
 
                 </nav>
-                <!-- End Sidebar navigation -->
             </div>
-            <!-- End Sidebar scroll-->
         </aside>
+
         <div class="page-wrapper">
             <div class="container-fluid">
-                <!-- ============================================================== -->
-                <!-- Three charts -->
-                <!-- ============================================================== -->
-                <div class="row justify-content-center">
+            <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
                             <h3 class="box-title">Total No. of Employees</h3>
@@ -156,100 +163,189 @@ $rfidAll = count($dao1->retrieve());
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="white-box analytics-info">
-                            <h3 class="box-title">Unique Visitor</h3>
+                            <h3 class="box-title">Excavator Issues Reported (<?php echo $today?>)</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
                                 <li>
                                     <div id="sparklinedash3"><canvas width="67" height="30"
                                             style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
                                     </div>
                                 </li>
-                                <li class="ms-auto"><span class="counter text-info">911</span>
+                                <li class="ms-auto"><span class="counter text-info"><?php echo $count1?></span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- PRODUCTS YEARLY SALES -->
-                <!-- ============================================================== -->
+
                 <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div class="col-sm-12">
                         <div class="white-box">
-                            <h3 class="box-title">Excavator's Location</h3>
-                            <div class="d-md-flex">
-                                <ul class="list-inline d-flex ms-auto">
-                                    <li class="ps-3">
-                                        <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
-                                    </li>
-                                    <li class="ps-3">
-                                        <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="ct-visits" style="height: 405px;">
-                                <div class="chartist-tooltip" style="top: -17px; left: -12px;"><span
-                                        class="chartist-tooltip-value">6</span>
-                                </div>
+                            <h3 class="box-title"> Excavator's Location</h3>
+                            <div id="map" class="gmaps" style="position: relative; overflow: hidden;">
+                                
+                                <script>
+                            
+                                  var map;
+                                    var x;
+                                    function loadmaps(){
+                                        $.getJSON("https://api.thingspeak.com/channels/1678239/fields/1/last.json?api_key=PZTTLCPVJFMEDI89", function(result){
+                                        var m = result;
+                                        x=Number(m.field1);
+                                    });
+                                        $.getJSON("https://api.thingspeak.com/channels/1678239/fields/2/last.json?api_key=PZTTLCPVJFMEDI89", function(result){
+                                        var m = result;
+                                        y=Number(m.field2);   
+                                    }).done(function() {
+                                        
+                                            initialize();
+                                });
+                                        
+                                    }
+                                    
+                                    window.setInterval(function(){
+                                    loadmaps();
+                                        }, 9000);
+                                  function initialize() {
+                                    var mapOptions = {
+                                      zoom: 18,
+                                      center: {lat: x, lng: y}
+                                    };
+                                    map = new google.maps.Map(document.getElementById('map'),
+                                        mapOptions);
+                            
+                                    var marker = new google.maps.Marker({
+                                      position: {lat: x, lng: y},
+                                      map: map
+                                    });
+                            
+                                    var infowindow = new google.maps.InfoWindow({
+                                      content: '<p>Marker Location:' + marker.getPosition() + '</p>'
+                                    });
+                            
+                                    google.maps.event.addListener(marker, 'click', function() {
+                                      infowindow.open(map, marker);
+                                    });
+                                  }
+                            
+                                  google.maps.event.addDomListener(window, 'load', initialize);
+                                </script>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- ============================================================== -->
-                <!-- RECENT SALES -->
-                <!-- ============================================================== -->
+
                 <div class="row">
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="white-box">
-                            <div class="d-md-flex mb-3">
-                                <h3 class="box-title mb-0">Recent sales</h3>
-                                <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
-                                    <select class="form-select shadow-none row border-top">
-                                        <option>March 2021</option>
-                                        <option>April 2021</option>
-                                        <option>May 2021</option>
-                                        <option>June 2021</option>
-                                        <option>July 2021</option>
-                                    </select>
-                                </div>
+                            <div class="container">
+                                <h3 class="box-title mb-0">Operator's Attendance (<?php echo $today?>) </h3>
+                                <br>
+                              
+                                <div class="d-md-flex">
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Employee here" onkeyup="search()">
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-4">
+                                        <label for="date">Filter Date:</label>
+                                        <input type="date" id="filterDate" name="filterDate">
+                                        <input type="submit" onclick="filterDate()" value="Search">
+                                    </div>
+                                </div>  
                             </div>
+                            <hr>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">Name</th>
-                                            <th class="border-top-0">Status</th>
-                                            <th class="border-top-0">Date</th>
-                                            <th class="border-top-0">Price</th>
+                                            <th class="border-top-0">RFID Number</th>
+                                            <th class="border-top-0">Location</th>
+                                            <th class="border-top-0">Employee Name</th>
+                                            <th class="border-top-0">Start Time</th>
+                                            <th class="border-top-0">End Time</th>
+                                             
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <?php
+                                            $i = 1;
+                                            echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
+                                            foreach ($job as $rfid1){
+                                                if($rfid1->getDateAdded() == $today){
+                                                    $employeeName = $rfid1->getEmployeeName();
+                                                    echo "<tr value='$employeeName'>
+                                                        <td> {$i}</td>
+                                                        <td> {$rfid1->getRFID()}</td>
+                                                        <td> {$rfid1->getSite()}</td>
+                                                        <td> {$rfid1->getEmployeeName()}</td>
+                                                        <td> {$rfid1->getStartTime()}</td>
+                                                        <td> {$rfid1->getEndTime()}</td>
+                                                        
+                                                    </tr>";
+                                                    $i++;
+                                                }
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-    </div>
-    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
+                             
+                             
+                 
+    
     <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/sidebarmenu.js"></script>
+    <script src="plugins/bower_components/gmaps/gmaps.min.js"></script>
+    <script src="js/custom.js"></script>
     <script src="js/app-style-switcher.js"></script>
     <script src="plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <!--Wave Effects -->
     <script src="js/waves.js"></script>
-    <!--Menu sidebar -->
     <script src="js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="js/custom.js"></script>
-    <!--This page JavaScript -->
-    <!--chartis chart-->
     <script src="plugins/bower_components/chartist/dist/chartist.min.js"></script>
     <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="js/pages/dashboards/dashboard1.js"></script>
+    <div id="map"></div>
+
+    <script>
+        function filterDate() {
+            input = document.getElementById("filterDate");
+            ul = document.getElementById("myUL");
+            tr = document.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                Array.prototype.forEach.call(elements, function(element) {
+                todayDate = element.innerHTML;
+                if (input.value == todayDate) {
+                    tr[i].style.display = "";
+                } 
+                else {
+
+                    tr[i].style.display = "none";
+                }
+                })
+            };
+        }
+
+        function search() {
+            input = document.getElementById("searchRFID");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = document.getElementsByTagName("tr");
+            for (i = 1; i < li.length; i++) {
+                employeeName = li[i].getAttribute("value");
+                if (employeeName.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+    </script>
 </body>
 
 </html>

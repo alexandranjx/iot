@@ -64,48 +64,45 @@ class rfidDAO{
         return $rfid;
     }
 
-    public function addAttendance($rfidNo)
-    {
-        $conn_manager = new ConnectionManager();
-        $pdo = $conn_manager->getConnection("iot");
+    // public function addAttendance($rfidNo)
+    // {
+    //     $conn_manager = new ConnectionManager();
+    //     $pdo = $conn_manager->getConnection("iot");
 
-        $sql = "select * from rfid";
-        $stmt = $pdo->prepare($sql);
+    //     $sql = "select * from rfid";
+    //     $stmt = $pdo->prepare($sql);
         
-        $stmt->execute();
+    //     $stmt->execute();
 
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        if ($row = $stmt->fetch()) {
-            $employeeName = $row["employeeName"];
-        }
+    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    //     if ($row = $stmt->fetch()) {
+    //         $employeeName = $row["employeeName"];
+    //     }
 
-        date_default_timezone_set( 'Asia/Singapore');
-        $today = date("Y-m-d");
-        $time = time("hh:mm:s");
-        $conn_manager = new ConnectionManager();
-        $pdo = $conn_manager->getConnection("iot");
+    //     date_default_timezone_set( 'Asia/Singapore');
+    //     $today = date("Y-m-d");
+    //     $time = time("hh:mm:s");
+    //     $conn_manager = new ConnectionManager();
+    //     $pdo = $conn_manager->getConnection("iot");
         
-        $sql = "insert into attedance (rfidNo, employeeName, starttime, dateTimeAdded) values (:rfidNo,:employeeName, :time,:today);";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":today", $today);
-        $stmt->bindParam(":time", $time);
-        $stmt->bindParam(":rfidNo", $rfidNo);
-        $stmt->bindParam(":employeeName", $employeeName);
+    //     $sql = "insert into attedance (rfidNo, employeeName, starttime, dateTimeAdded) values (:rfidNo,:employeeName, :time,:today);";
+    //     $stmt = $pdo->prepare($sql);
+    //     $stmt->bindParam(":today", $today);
+    //     $stmt->bindParam(":time", $time);
+    //     $stmt->bindParam(":rfidNo", $rfidNo);
+    //     $stmt->bindParam(":employeeName", $employeeName);
         
-        if ($stmt->execute()) {
-            $stmt = null;
-            $pdo = null;
-            return true;
-        }
+    //     if ($stmt->execute()) {
+    //         $stmt = null;
+    //         $pdo = null;
+    //         return true;
+    //     }
         
-        $stmt = null;
-        $pdo = null;
-        return false;
+    //     $stmt = null;
+    //     $pdo = null;
+    //     return false;
 
-
-        
-
-    }
+    // }
 
 
 }
