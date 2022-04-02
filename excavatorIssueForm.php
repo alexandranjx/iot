@@ -26,7 +26,7 @@
                     <div class="form-group row">
                         <label for="rfidNumber" class="col col-form-label">RFID Number</label>
                         <div class="col-sm">
-                        <input type="text" class="form-control" id="rfidNumber" name="rfidNumber" value='123456789'  readonly>
+                        <input type="text" class="form-control" id="rfidNumber" name="rfidNumber" value='195102108001'  readonly>
                         </div>
                     </div>
                     <div class="form-group row">
