@@ -1,12 +1,11 @@
 <?php
 
 require 'objects/autoload.php';
-if ( isset($_GET[$rfidNumber]) ) {
-    $rfidNumber = $_GET["rfidNumber"];
-    $dao = new rfidDAO();
-    $add = $dao->addAttendance($rfidNumber);
-    header('Location: viewRFID.php');
-    exit;
+if ( isset($_POST['rfidNo']) ) {
+    $rfidNumber = $_POST['rfidNo'];
+    $dao = new operatorDAO();
+    $add = $dao->updateAttendance($rfidNo, "SHUB928", "Changi", 'Peter');
+
 }
 
 else {
