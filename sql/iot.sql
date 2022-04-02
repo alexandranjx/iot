@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS `rfid` (
 );
 
 insert into rfid
-values ("123456789", "user1", "2021-11-22");
+values ("195102108001", "Peter", "2021-11-22");
 
 insert into rfid
-values ("987654321", "user2", "2021-03-22");
+values ("211089233023", "Sam", "2021-03-22");
 
 
 -- CREATE TABLE IF NOT EXISTS `attendance` (
@@ -49,10 +49,20 @@ CREATE TABLE IF NOT EXISTS `operatorActivities` (
 );
 
 insert into operatorActivities
-values ("123456789", "Peter", "DSE23","Paya Lebar - Dig ground and soil", "09:00:00", "13:30:00", "2022-03-23");
-
+values ("195102108001", "Peter", "DSE23","Paya Lebar - Dig ground and soil", "07:00:00", "13:30:00", "2022-03-26");
 insert into operatorActivities
-values ("123456789", "Peter", "WER123","Woodlands - Cut trees","15:00:00", "18:30:00", "2022-03-23");
+values ("195102108001", "Peter", "WER123","Woodlands - Dig soil ","15:00:00", "18:30:00", "2022-03-26");
+insert into operatorActivities
+values ("195102108001", "Peter", "SER234","SMU School of Economics - Ground works ", "07:00:00", "18:30:00", "2022-03-27");
+insert into operatorActivities
+values ("195102108001", "Peter", "WER123","SMU School of Accounting - Dig ground and soil","07:00:00", "18:30:00", "2022-03-28");
+insert into operatorActivities
+values ("195102108001", "Peter", "DSE23","Paya Lebar - Ground works", "07:00:00", "18:30:00", "2022-03-29");
+insert into operatorActivities
+values ("195102108001", "Peter", "MOER343","Tuas - Spare worker", "07:00:00", "18:30:00", "2022-03-30");
+insert into operatorActivities
+values ("195102108001", "Peter", "TRE434","SMU School of Economics - Ground Works","07:00:00", "18:30:00", "2022-04-01");
+
 
 CREATE TABLE IF NOT EXISTS `operatorAttendance` (
     `rfidNo` varchar(20)  NOT NULL,
@@ -66,10 +76,19 @@ CREATE TABLE IF NOT EXISTS `operatorAttendance` (
 );
 
 insert into operatorAttendance
-values ("123456789", "Peter", "DSE23","Paya Lebar", "09:30:00", "13:30:00", "2022-03-23");
-
-insert into operatorAttendance (rfidNo,employeeName, excavatorNo, location, starttime ,dateTimeAdded)
-values ("123456789", "Peter", "WER123", "Woodlands", "14:45:00", "2022-03-23");
+values ("195102108001", "Peter", "DSE23","Paya Lebar", "07:01:00", "13:30:00", "2022-03-26");
+insert into operatorAttendance
+values ("195102108001", "Peter", "WER123", "Woodlands", "15:00:00", "18:30:00", "2022-03-26");
+insert into operatorAttendance
+values ("195102108001", "Peter", "SER234","SMU School of Economics", "07:00:00", "18:35:00", "2022-03-27");
+insert into operatorAttendance
+values ("195102108001", "Peter", "WER123","SMU School of Accounting", "06:58:00", "18:32:00", "2022-03-28");
+insert into operatorAttendance
+values ("195102108001", "Peter", "DSE23","Paya Lebar", "06:56:00", "18:31:00", "2022-03-29");
+insert into operatorAttendance
+values ("195102108001", "Peter", "MOER343","Tuas", "06:47:00", "18:39:00", "2022-03-30");
+insert into operatorAttendance
+values ("195102108001", "Peter", "TRE434","SMU School of Economics", "07:00:00", "18:40:00", "2022-04-01");
 
 
 CREATE TABLE IF NOT EXISTS `reportExcavator` (
@@ -82,4 +101,6 @@ CREATE TABLE IF NOT EXISTS `reportExcavator` (
 );
 
 insert into reportExcavator
-values ("123456789", "Peter", "Paya Lebar", "DSE23", "Wheels cant move", "2022-03-23");
+values ("195102108001", "Peter", "Paya Lebar", "DSE23", "Wheels cant move", "2022-03-26");
+insert into reportExcavator
+values ("195102108001", "Peter", "Tuas", "MOER343", "Water Leak", "2022-03-30");

@@ -112,7 +112,7 @@ $job = $dao->retrieveOperatorAttendance('Peter');
                                 <div class="d-md-flex">
                                     
                                     <div class="col-sm-6">
-                                        <!-- <input type="text" class="form-control" id="searchDate" size="30" placeholder="Search Job Date" onkeyup="search()"> -->
+                                        <input type="hidden" >
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
@@ -209,6 +209,26 @@ $job = $dao->retrieveOperatorAttendance('Peter');
 
 
     </script>
+
+<script>
+    var getRFID;
+        var x;
+        function loadRFID(){
+            $.getJSON("https://api.thingspeak.com/channels/1691373/fields/1/last.json?api_key=YAJO8BU9ZWF243I4", function(result){
+            var m = result;
+            y=Number(m.field2);   
+        }).done(function() {
+            
+            initialize();
+        });
+            
+        }window.setInterval(function(){
+            loadRFID();
+                }, 9000);
+        xmlhttp.open("GET","processAdAttendance.php?rfidNo="+str,true);
+        xmlhttp.send();
+        
+</script>
 
     
 </body>
