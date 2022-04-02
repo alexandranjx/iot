@@ -238,12 +238,12 @@ foreach ($issues as $j){
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="white-box">
                             <div class="container">
-                                <h3 class="box-title mb-0">Operator's Attendance (<?php echo $today?>) </h3>
+                                <h3 class="box-title mb-0"> Excavators' Location and Usage </h3>
                                 <br>
                               
                                 <div class="d-md-flex">
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Employee here" onkeyup="search()">
+                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Location here" onkeyup="search()">
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
