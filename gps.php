@@ -146,11 +146,11 @@ foreach ($issues as $j){
                                   var map;
                                     var x;
                                     function loadmaps(){
-                                        $.getJSON("https://api.thingspeak.com/channels/1691373/fields/2/last.json?api_key=YAJO8BU9ZWF243I4", function(result){
+                                        $.getJSON("https://api.thingspeak.com/channels/1691373/fields/2/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
                                         var m = result;
                                         x=Number(m.field1);
                                     });
-                                        $.getJSON("https://api.thingspeak.com/channels/1691373/fields/3/last.json?api_key=YAJO8BU9ZWF243I4", function(result){
+                                        $.getJSON("https://api.thingspeak.com/channels/1691373/fields/3/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
                                         var m = result;
                                         y=Number(m.field2);   
                                     }).done(function() {
