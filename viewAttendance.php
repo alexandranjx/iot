@@ -82,7 +82,7 @@ $rfid = $dao->retrieveAllAttendance();
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="map-google.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="gps.php"
                                 aria-expanded="false">
                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                 <span class="hide-menu">Tracker GPS</span>
@@ -164,15 +164,15 @@ $rfid = $dao->retrieveAllAttendance();
                                             $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             foreach ($rfid as $rfid1){
-                                                $employeeName = $rfid1->getEmployeeName();
-                                                echo "<tr value='$employeeName'>
+                                                $employeeJob = $rfid1->getDateAdded();
+                                                echo "<tr value='$employeeJob'>
                                                     <td> {$i}</td>
                                                     <td> {$rfid1->getRFID()}</td>
                                                     <td> {$rfid1->getSite()}</td>
                                                     <td> {$rfid1->getEmployeeName()}</td>
                                                     <td> {$rfid1->getStartTime()}</td>
                                                     <td> {$rfid1->getEndTime()}</td>
-                                                    <td class='current_date'> </td>
+                                                    <td> {$rfid1->getDateAdded()}</td>
                                                 </tr>";
                                                 $i++;
                                             }
@@ -208,8 +208,8 @@ $rfid = $dao->retrieveAllAttendance();
             ul = document.getElementById("myUL");
             li = document.getElementsByTagName("tr");
             for (i = 1; i < li.length; i++) {
-                employeeName = li[i].getAttribute("value");
-                if (employeeName.toUpperCase().indexOf(filter) > -1) {
+                employeeJob = li[i].getAttribute("value");
+                if (employeeJob.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
                 } else {
                     li[i].style.display = "none";
@@ -221,17 +221,13 @@ $rfid = $dao->retrieveAllAttendance();
                 input = document.getElementById("filterDate");
                 ul = document.getElementById("myUL");
                 tr = document.getElementsByTagName("tr");
-
                 for (i = 0; i < tr.length; i++) {
-                    Array.prototype.forEach.call(elements, function(element) {
-                    todayDate = element.innerHTML;
-                    if (input.value == todayDate) {
+                    employeeJob = tr[i].getAttribute("value");
+                    if (input.value == employeeJob) {
                         tr[i].style.display = "";
                     } else {
-
                         tr[i].style.display = "none";
                     }
-                })
             };
             }
 
