@@ -25,6 +25,9 @@ foreach ($issues as $j){
     }
 }
 
+$gpsDAO = new gpsDAO();
+$idleRetrieve = $gpsDAO->retrieveAll();
+
 
 
 ?>
@@ -71,10 +74,13 @@ foreach ($issues as $j){
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                <a href="dashboard.php"
+                        ><img src="plugins/images/users/logo.png" alt="TrackAvactor" width="100px" >
+                    </a>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
                         <li>
                             <a class="profile-pic" href="#">
-                                <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
+                                <img src="plugins/images/users/sonu.jpg" alt="user-img" width="36"
                                     class="img-circle"><span class="text-white font-medium">Management 1</span></a>
                         </li>
                     </ul>
@@ -294,16 +300,16 @@ foreach ($issues as $j){
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="white-box">
                             <div class="container">
-                                <h3 class="box-title mb-0"> Excavators' Location and Usage as of (<?php echo $today?>) </h3>
+                                <h3 class="box-title mb-0"> Excavators' Location and Usage (<?php echo $today?>) </h3>
                                 <br>
                               
                                 <div class="d-md-flex">
                                     <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="searchLocation" size="30" placeholder="Search Location here" onkeyup="searchLocation()">
+                                        <input type="text" class="form-control" id="searchIdleLocation" size="30" placeholder="Search Location here" onkeyup="search()">
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
-                                    
+                                        
                                     </div>
                                 </div>  
                             </div>
@@ -315,25 +321,25 @@ foreach ($issues as $j){
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Excavator Number</th>
                                             <th class="border-top-0">Location</th>
-                                            <th class="border-top-0">Idle Period</th>
+                                            <th class="border-top-0">Idle Date Start</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                            $i = 1;
-                                            echo "<ul id='myLocation' style='list-style-type: none; padding: 0;'>";
-                                            foreach ($issues as $issues){
-                                                if($issues->getDateAdded() == $today){
-                                                    $myLocation = $issues->getLocation();
-                                                    echo "<tr value='$myLocation'>
-                                                        <td> {$i}</td>
-                                                        <td> {$issues->getExcavatorNo()}</td>
-                                                        <td> {$issues->getLocation()}</td>
-                                                        <td> 2 days </td>
-                                                    </tr>";
-                                                    $i++;
-                                                }
+                                        $i = 1;
+                                        echo "<ul id='idleLocation' style='list-style-type: none; padding: 0;'>";
+                                        foreach ($idleRetrieve as $idle){
+                                            if($idle->getSpeed() == "0"){
+                                                $location = $idle->getLocation();
+                                                echo "<tr value='$location'>
+                                                    <td> {$i}</td>
+                                                    <td> {$idle->getExcavatorNo()}</td>
+                                                    <td> {$idle->getLocation()}</td>
+                                                    <td> {$idle->getDateAdded()}</td>
+                                                </tr>";
+                                                $i++;
                                             }
+                                        }
                                         ?>
                                     </tbody>
                                 </table>
@@ -361,21 +367,6 @@ foreach ($issues as $j){
     <script>
 
 
-    function searchLocation() {
-            input = document.getElementById("searchLocation");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myLocation");
-            li = document.getElementsByTagName("tr");
-            for (i = 1; i <= li.length; i++) {
-                myLocation = li[i].getAttribute("value");
-                if (myLocation.toUpperCase().indexOf(filter) > -1) {
-                    li1[i].style.display = "";
-                } else {
-                    li1[i].style.display = "none";
-                }
-            }
-        }
-
         function search1() {
             input = document.getElementById("searchOperator");
             filter = input.value.toUpperCase();
@@ -384,6 +375,36 @@ foreach ($issues as $j){
             for (i = 1; i < li.length; i++) {
                 employeeName = li[i].getAttribute("value");
                 if (employeeName.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+        
+        // function searchLocation() {
+        //     input = document.getElementById("searchIdleLocation");
+        //     filter = input.value.toUpperCase();
+        //     ul = document.getElementById("idleLocation");
+        //     li = document.getElementsByTagName("tr");
+        //     for (i = 1; i < li.length; i++) {
+        //         location = li[i].getAttribute("value");
+        //         if (location.toUpperCase().indexOf(filter) > -1) {
+        //             li[i].style.display = "";
+        //         } else {
+        //             li[i].style.display = "none";
+        //         }
+        //     }
+        // }
+
+        function search() {
+            input = document.getElementById("searchIdleLocation");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("idleLocation");
+            li = document.getElementsByTagName("tr");
+            for (i = 1; i < li.length; i++) {
+                location = li[i].getAttribute("value");
+                if (location.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
                 } else {
                     li[i].style.display = "none";

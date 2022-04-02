@@ -40,6 +40,9 @@ $job = $dao->retrieveExcavatorHistory('Peter');
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                    <a href="operatorHomepage.php"
+                        ><img src="plugins/images/users/logo.png" alt="TrackAvactor" width="100px" >
+                    </a>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
                         <li>
                             <a class="profile-pic" href="#">
@@ -103,7 +106,9 @@ $job = $dao->retrieveExcavatorHistory('Peter');
                             <br> 
                             <div class="d-md-flex">
                                     <div class="col-sm-6">
-                                        
+                                    <label for="date">Filter Date:</label>
+                                        <input type="date" id="filterDate" name="filterDate">
+                                        <input type="submit" onclick="filterDate()" value="Search">
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
@@ -130,8 +135,8 @@ $job = $dao->retrieveExcavatorHistory('Peter');
                                             $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             foreach ($job as $job1){
-                                                $employeeJob = $job1->getIssue();
-                                                echo "<tr value='{$employeeJob}'>
+                                                $getDateAdded = $job1->getDateAdded();
+                                                echo "<tr value='{$getDateAdded}'>
                                                     <td> $i </td>
                                                     <td> {$job1->getExcavatorNo()}</td>
                                                     <td> {$job1->getLocation()}</td>
@@ -165,25 +170,25 @@ $job = $dao->retrieveExcavatorHistory('Peter');
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
     
-<!-- 
+
     <script>
-        function search() {
-            input = document.getElementById("searchIssues");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = document.getElementsByTagName("tr");
-            for (i = 1; i < li.length; i++) {
-                employeeJob = li[i].getAttribute("value");
-                if (employeeJob.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
+    function filterDate() {
+                input = document.getElementById("filterDate");
+                ul = document.getElementById("myUL");
+                tr = document.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    employeeJob = tr[i].getAttribute("value");
+                    if (input.value == employeeJob) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+               
+            };
             }
-        }
 
 
-    </script> -->
+    </script>
 
     
 </body>

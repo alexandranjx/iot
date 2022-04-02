@@ -45,7 +45,7 @@ foreach ($issues as $j){
     <title>Dashboard</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
+    
     <!-- Custom CSS -->
    <link href="css/style.min.css" rel="stylesheet">
    <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
@@ -68,13 +68,18 @@ foreach ($issues as $j){
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
+        
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                <a href="dashboard.php"
+                        ><img src="plugins/images/users/logo.png" alt="TrackAvactor" width="100px" >
+                    </a>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
+                    
                         <li>
                             <a class="profile-pic" href="#">
-                                <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
+                                <img src="plugins/images/users/sonu.jpg" alt="user-img" width="36"
                                     class="img-circle"><span class="text-white font-medium">Management 1</span></a>
                         </li>
                     </ul>
@@ -103,7 +108,7 @@ foreach ($issues as $j){
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="map-google.html"
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="gps.php"
                                 aria-expanded="false">
                                 <i class="fa fa-globe" aria-hidden="true"></i>
                                 <span class="hide-menu">Tracker GPS</span>

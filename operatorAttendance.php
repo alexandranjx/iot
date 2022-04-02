@@ -40,6 +40,9 @@ $job = $dao->retrieveOperatorAttendance('Peter');
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                <a href="operatorHomepage.php"
+                        ><img src="plugins/images/users/logo.png" alt="TrackAvactor" width="100px" >
+                    </a>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
                         <li>
                             <a class="profile-pic" href="#">
@@ -132,6 +135,7 @@ $job = $dao->retrieveOperatorAttendance('Peter');
                                             <th class="border-top-0">Clock In</th>
                                             <th class="border-top-0">Clock Out</th>
                                             <th class="border-top-0">Job Date</th> 
+                                            
                                            
                                         </tr>
                                     </thead>
@@ -177,21 +181,6 @@ $job = $dao->retrieveOperatorAttendance('Peter');
     
 
     <script>
-        // function search() {
-        //     input = document.getElementById("searchDate");
-        //     filter = input.value.toUpperCase();
-        //     ul = document.getElementById("myUL");
-        //     li = document.getElementsByTagName("tr");
-        //     for (i = 1; i < li.length; i++) {
-        //         employeeJob = li[i].getAttribute("value");
-        //         if (employeeJob.toUpperCase().indexOf(filter) > -1) {
-        //             li[i].style.display = "";
-        //         } else {
-        //             li[i].style.display = "none";
-        //         }
-        //     }
-        // }
-
         function filterDate() {
                 input = document.getElementById("filterDate");
                 ul = document.getElementById("myUL");
@@ -203,32 +192,32 @@ $job = $dao->retrieveOperatorAttendance('Peter');
                     } else {
                         tr[i].style.display = "none";
                     }
-               
             };
             }
 
 
     </script>
 
-<script>
-    var getRFID;
-        var x;
-        function loadRFID(){
-            $.getJSON("https://api.thingspeak.com/channels/1691373/fields/1/last.json?api_key=YAJO8BU9ZWF243I4", function(result){
-            var m = result;
-            y=Number(m.field2);   
-        }).done(function() {
+    <script>
+        var getRFID;
+            var x;
+            function loadRFID(){
+                $.getJSON("https://api.thingspeak.com/channels/1691373/feeds.json?api_key=8P1WU7PY4Q44PQ8B&results=2", function(result){
+                var m = result;
+                x=Number(m.field1); 
+            }).done(function() {
+                initialize();
+            });
+            }window.setInterval(function(){
+                loadRFID();
+                    }, 9000);
+                    function initialize() {
+                        xmlhttp.open("GET","processAdAttendance.php?rfidNo="+x,true);
+                        xmlhttp.send();
+                    }
+
             
-            initialize();
-        });
-            
-        }window.setInterval(function(){
-            loadRFID();
-                }, 9000);
-        xmlhttp.open("GET","processAdAttendance.php?rfidNo="+str,true);
-        xmlhttp.send();
-        
-</script>
+    </script>
 
     
 </body>

@@ -40,6 +40,9 @@ $job = $dao->retrieveOperatorActivities('Peter');
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                <a href="operatorHomepage.php"
+                        ><img src="plugins/images/users/logo.png" alt="TrackAvactor" width="100px" >
+                    </a>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
                         <li>
                             <a class="profile-pic" href="#">
@@ -100,8 +103,8 @@ $job = $dao->retrieveOperatorActivities('Peter');
                             <br> 
                                 <div class="d-md-flex">
                                     
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchDate" size="30" placeholder="Search Job Activities" onkeyup="search()">
+                                <div class="col-sm-6">
+                                        <input type="hidden" >
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
@@ -128,8 +131,8 @@ $job = $dao->retrieveOperatorActivities('Peter');
                                             $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             foreach ($job as $job1){
-                                                $employeeJob = $job1->getSite();
-                                                echo "<tr value='{$employeeJob}'>
+                                                $getDateAdded = $job1->getDateAdded();
+                                                echo "<tr value='{$getDateAdded}'>
                                                     <td> $i </td>
                                                     <td> {$job1->getSite()}</td>
                                                     <td> {$job1->getStartTime()} </td>

@@ -104,3 +104,24 @@ insert into reportExcavator
 values ("195102108001", "Peter", "Paya Lebar", "DSE23", "Wheels cant move", "2022-03-26");
 insert into reportExcavator
 values ("195102108001", "Peter", "Tuas", "MOER343", "Water Leak", "2022-03-30");
+
+CREATE TABLE IF NOT EXISTS `excavatorGPS` (
+    `excavatorNo` varchar(20)  NOT NULL,
+    `location` varchar(100) NOT NULL,
+    `idlePeriod` varchar(100) NOT NULL,
+    `speed` varchar(100) NOT NULL,
+    `dateTimeAdded` date NOT NULL
+);
+
+insert into excavatorGPS
+values ("DSE23", "Paya Lebar", "1", "0",  "2022-03-26");
+insert into excavatorGPS
+values ("MOER343", "Tuas", "2", "0",  "2022-03-30");
+insert into excavatorGPS
+values ("SER234", "SMU School of Economics", "2", "0",  "2022-03-30");
+insert into excavatorGPS
+values ("TRE434", "SMU School of Accounting", "0", "40",  "2022-03-26");
+insert into excavatorGPS
+values ("DSE23", "Paya Lebar", "0", "50",  "2022-04-01");
+insert into excavatorGPS
+values ("MOER343", "Woodlands", "2", "0",  "2022-03-31");

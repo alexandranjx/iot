@@ -40,10 +40,13 @@ $job = $dao->retrieveAll();
         <header class="topbar" data-navbarbg="skin5">
             <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin4">
+                <a href="dashboard.php"
+                        ><img src="plugins/images/users/logo.png" alt="TrackAvactor" width="100px" >
+                    </a>
                     <ul class="navbar-nav ms-auto d-flex align-items-center">
                         <li>
                             <a class="profile-pic" href="#">
-                                <img src="plugins/images/users/varun.jpg" alt="user-img" width="36"
+                                <img src="plugins/images/users/sonu.jpg" alt="user-img" width="36"
                                     class="img-circle"><span class="text-white font-medium">Management 1</span></a>
                         </li>
                     </ul>
@@ -117,7 +120,7 @@ $job = $dao->retrieveAll();
                             <br> 
                             <div class="d-md-flex">
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchIssues" size="30" placeholder="Search Issues here" onkeyup="search()">
+                                        <!-- <input type="text" class="form-control" id="searchIssues" size="30" placeholder="Search Issues here" onkeyup="search()"> -->
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
@@ -145,7 +148,7 @@ $job = $dao->retrieveAll();
                                             $i = 1;
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             foreach ($job as $job1){
-                                                $employeeJob = $job1->getIssue();
+                                                $employeeJob = $job1->getDateAdded();
                                                 echo "<tr value='{$employeeJob}'>
                                                     <td> $i </td>
                                                     <td> {$job1->getExcavatorNo()}</td>
@@ -183,36 +186,33 @@ $job = $dao->retrieveAll();
     
 
     <script>
-        function search() {
-            input = document.getElementById("searchIssues");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = document.getElementsByTagName("tr");
-            for (i = 1; i < li.length; i++) {
-                employeeJob = li[i].getAttribute("value");
-                if (employeeJob.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
+        // function search() {
+        //     input = document.getElementById("searchIssues");
+        //     filter = input.value.toUpperCase();
+        //     ul = document.getElementById("myUL");
+        //     li = document.getElementsByTagName("tr");
+        //     for (i = 1; i < li.length; i++) {
+        //         employeeJob = li[i].getAttribute("value");
+        //         if (employeeJob.toUpperCase().indexOf(filter) > -1) {
+        //             li[i].style.display = "";
+        //         } else {
+        //             li[i].style.display = "none";
+        //         }
+        //     }
+        // }
 
         function filterDate() {
                 input = document.getElementById("filterDate");
                 ul = document.getElementById("myUL");
                 tr = document.getElementsByTagName("tr");
-
                 for (i = 0; i < tr.length; i++) {
-                    Array.prototype.forEach.call(elements, function(element) {
-                    todayDate = element.innerHTML;
-                    if (input.value == todayDate) {
+                    employeeJob = tr[i].getAttribute("value");
+                    if (input.value == employeeJob) {
                         tr[i].style.display = "";
                     } else {
-
                         tr[i].style.display = "none";
                     }
-                })
+               
             };
             }
 
