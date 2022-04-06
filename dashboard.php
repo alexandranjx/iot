@@ -403,8 +403,8 @@ $idleRetrieve = $gpsDAO->retrieveAll();
             ul = document.getElementById("idleLocation");
             li = document.getElementsByTagName("tr");
             for (i = 1; i < li.length; i++) {
-                location = li[i].getAttribute("value");
-                if (location.toUpperCase().indexOf(filter) > -1) {
+                employeeName = li[i].getAttribute("value");
+                if (employeeName.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
                 } else {
                     li[i].style.display = "none";

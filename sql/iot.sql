@@ -90,6 +90,10 @@ values ("195102108001", "Peter", "MOER343","Tuas", "06:47:00", "18:39:00", "2022
 insert into operatorAttendance
 values ("195102108001", "Peter", "TRE434","SMU School of Economics", "07:00:00", "18:40:00", "2022-04-01");
 
+insert into operatorAttendance (rfidNo, employeeName, excavatorNo, location, starttime, dateTimeAdded)
+values ("195102108001", "Peter", "POP123","SMU School of Economics", "10:02:34","2022-04-06");
+
+
 
 CREATE TABLE IF NOT EXISTS `reportExcavator` (
     `rfidNo` varchar(20)  NOT NULL,

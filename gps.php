@@ -26,6 +26,8 @@ foreach ($issues as $j){
 }
 
 
+$gpsDAO = new gpsDAO();
+$idleRetrieve = $gpsDAO->retrieveAll();
 
 ?>
 
@@ -201,18 +203,16 @@ foreach ($issues as $j){
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="white-box">
                             <div class="container">
-                                <h3 class="box-title mb-0"> Excavators' Location and Idle Period </h3>
+                                <h3 class="box-title mb-0"> Excavators' Location and Usage (<?php echo $today?>) </h3>
                                 <br>
                               
                                 <div class="d-md-flex">
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="searchRFID" size="30" placeholder="Search Location here" onkeyup="search()">
+                                <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="searchOperator" size="30" placeholder="Search Operator here" onkeyup="search1()">
                                     </div>
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-4">
-                                        <label for="date">Filter Date:</label>
-                                        <input type="date" id="filterDate" name="filterDate">
-                                        <input type="submit" onclick="filterDate()" value="Search">
+                                        
                                     </div>
                                 </div>  
                             </div>
@@ -222,17 +222,28 @@ foreach ($issues as $j){
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">Excavator No</th>
+                                            <th class="border-top-0">Excavator Number</th>
                                             <th class="border-top-0">Location</th>
-                                            <th class="border-top-0">Idle Period</th>
-                                             
+                                            <th class="border-top-0">Idle Date Start</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            <td >1</td>
-                                            <td >CAT307E 928</td>
-                                            <td>SMU School of Economics</td>
-                                            <td>2 days</td>
+                                    <?php
+                                        $i = 1;
+                                        echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
+                                        foreach ($idleRetrieve as $idle){
+                                            if($idle->getSpeed() == "0"){
+                                                $location = $idle->getLocation();
+                                                echo "<tr value='$location'>
+                                                    <td> {$i}</td>
+                                                    <td> {$idle->getExcavatorNo()}</td>
+                                                    <td> {$idle->getLocation()}</td>
+                                                    <td> {$idle->getDateAdded()}</td>
+                                                </tr>";
+                                                $i++;
+                                            }
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -257,27 +268,10 @@ foreach ($issues as $j){
     <div id="map"></div>
 
     <script>
-        function filterDate() {
-            input = document.getElementById("filterDate");
-            ul = document.getElementById("myUL");
-            tr = document.getElementsByTagName("tr");
+  
 
-            for (i = 0; i < tr.length; i++) {
-                Array.prototype.forEach.call(elements, function(element) {
-                todayDate = element.innerHTML;
-                if (input.value == todayDate) {
-                    tr[i].style.display = "";
-                } 
-                else {
-
-                    tr[i].style.display = "none";
-                }
-                })
-            };
-        }
-
-        function search() {
-            input = document.getElementById("searchRFID");
+    function search1() {
+            input = document.getElementById("searchOperator");
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = document.getElementsByTagName("tr");
@@ -290,6 +284,7 @@ foreach ($issues as $j){
                 }
             }
         }
+        
 
     </script>
 </body>
