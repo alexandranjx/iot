@@ -148,52 +148,52 @@ $idleRetrieve = $gpsDAO->retrieveAll();
                             <h3 class="box-title"> Excavator's Location</h3>
                             <div id="map" class="gmaps" style="position: relative; overflow: hidden;">
                                 
-                                <script>
+                            <script>
                             
-                                  var map;
-                                    var x;
-                                    function loadmaps(){
-                                        $.getJSON("https://api.thingspeak.com/channels/1691373/fields/2/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
-                                        var m = result;
-                                        x=Number(m.field1);
-                                    });
-                                        $.getJSON("https://api.thingspeak.com/channels/1691373/fields/3/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
-                                        var m = result;
-                                        y=Number(m.field2);   
-                                    }).done(function() {
-                                        
-                                            initialize();
-                                });
-                                        
-                                    }
-                                    
-                                    window.setInterval(function(){
-                                    loadmaps();
-                                        }, 9000);
-                                  function initialize() {
-                                    var mapOptions = {
-                                      zoom: 18,
-                                      center: {lat: x, lng: y}
-                                    };
-                                    map = new google.maps.Map(document.getElementById('map'),
-                                        mapOptions);
-                            
-                                    var marker = new google.maps.Marker({
-                                      position: {lat: x, lng: y},
-                                      map: map
-                                    });
-                            
-                                    var infowindow = new google.maps.InfoWindow({
-                                      content: '<p>Marker Location:' + marker.getPosition() + '</p>'
-                                    });
-                            
-                                    google.maps.event.addListener(marker, 'click', function() {
-                                      infowindow.open(map, marker);
-                                    });
-                                  }
-                            
-                                  google.maps.event.addDomListener(window, 'load', initialize);
-                                </script>
+                            var map;
+                              var x;
+                              function loadmaps(){
+                                  $.getJSON("https://api.thingspeak.com/channels/1691373/fields/2/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
+                                  var m = result;
+                                  x=Number(m.field2);
+                              });
+                                  $.getJSON("https://api.thingspeak.com/channels/1691373/fields/3/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
+                                  var m = result;
+                                  y=Number(m.field3);   
+                              }).done(function() {
+                                  
+                                      initialize();
+                          });
+                                  
+                              }
+                              
+                              window.setInterval(function(){
+                              loadmaps();
+                                  }, 9000);
+                            function initialize() {
+                              var mapOptions = {
+                                zoom: 18,
+                                center: {lat: x, lng: y}
+                              };
+                              map = new google.maps.Map(document.getElementById('map'),
+                                  mapOptions);
+                      
+                              var marker = new google.maps.Marker({
+                                position: {lat: x, lng: y},
+                                map: map
+                              });
+                      
+                              var infowindow = new google.maps.InfoWindow({
+                                content: '<p>Marker Location:' + marker.getPosition() + '</p>'
+                              });
+                      
+                              google.maps.event.addListener(marker, 'click', function() {
+                                infowindow.open(map, marker);
+                              });
+                            }
+                      
+                            google.maps.event.addDomListener(window, 'load', initialize);
+                          </script>
                             </div>
                         </div>
                     </div>
@@ -266,6 +266,7 @@ $idleRetrieve = $gpsDAO->retrieveAll();
     <script src="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="js/pages/dashboards/dashboard1.js"></script>
     <div id="map"></div>
+
 
     <script>
   
