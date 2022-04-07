@@ -96,12 +96,12 @@ values ("195102108001", "Peter", "OIW132","Punggol", "06:10:34", "18:20:45", "20
 insert into operatorAttendance
 values ("195102108001", "Peter", "ERE332","Bugis", "06:43:23", "18:43:23", "2022-04-04");
 
-insert into operatorAttendance (rfidNo, employeeName, excavatorNo, location, starttime, dateTimeAdded)
-values ("195102108001", "Peter", "POP123","Seng Kang", "13:02:34","2022-04-07");
+-- insert into operatorAttendance (rfidNo, employeeName, excavatorNo, location, starttime, dateTimeAdded)
+-- values ("195102108001", "Peter", "POP123","Seng Kang", "13:02:34","2022-04-07");
 
-UPDATE operatorAttendance 
-SET endtime = "13:05:34"
-WHERE rfidNo = "195102108001" AND employeeName = "Peter"and excavatorNo = "POP123" and dateTimeAdded = "2022-04-07";
+-- UPDATE operatorAttendance 
+-- SET endtime = "13:05:34"
+-- WHERE rfidNo = "195102108001" AND employeeName = "Peter"and excavatorNo = "POP123" and dateTimeAdded = "2022-04-07";
 
 
 CREATE TABLE IF NOT EXISTS `reportExcavator` (
