@@ -88,67 +88,68 @@ class operatorDAO{
 
         $stmt = null;
         $pdo = null;
-        return $status;
 
-        // $sql = "select * from operatorAttendance where rfidNo=:rfidNo and excavatorNo=:excavatorNo and location=:location and dateTimeAdded=:dateTimeAdded";
-        // $stmt = $pdo->prepare($sql);
-        // $stmt->bindParam(":rfidNo", $rfidNo);
-        // $stmt->bindParam(":excavatorNo", $excavatorNo);
-        // $stmt->bindParam(":location", $location);
-        // $stmt->execute();
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection("iot");
+        $sql = "select * from operatorAttendance where rfidNo=:rfidNo and excavatorNo=:excavatorNo and location=:location and dateTimeAdded=:dateTimeAdded";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":rfidNo", $rfidNo);
+        $stmt->bindParam(":excavatorNo", $excavatorNo);
+        $stmt->bindParam(":location", $location);
+        $stmt->execute();
 
-        // $attendance = '';
-        // $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        // if ($row = $stmt->fetch()) {
-        //     $attendance = $row["rfidNo"];
-        //     if($attendance != ''){
-        //         $conn_manager = new ConnectionManager();
-        //         $pdo = $conn_manager->getConnection("iot");
+        $attendance = '';
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        if ($row = $stmt->fetch()) {
+            $attendance = $row["rfidNo"];
+            if($attendance != ''){
+                $conn_manager = new ConnectionManager();
+                $pdo = $conn_manager->getConnection("iot");
         
-        //         $sql = "UPDATE `operatorAttendance` 
-        //                 SET endtime = starttime
-        //                 WHERE rfidNo=:rfidNo AND excavatorNo=:excavatorNo AND location=:location AND dateTimeAdded=:dateTimeAdded";
+                $sql = "UPDATE `operatorAttendance` 
+                        SET endtime = starttime
+                        WHERE rfidNo=:rfidNo AND excavatorNo=:excavatorNo AND location=:location AND dateTimeAdded=:dateTimeAdded";
         
-        //         $stmt = $pdo->prepare($sql);
-        //         $stmt->bindParam(":dateTimeAdded", $dateTimeAdded);
-        //         $stmt->bindParam(":rfidNo", $rfidNo);
-        //         $stmt->bindParam(":excavatorNo", $excavatorNo);
-        //         $stmt->bindParam(":location", $location);
-        //         $status = $stmt->execute();
-        //     }
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(":dateTimeAdded", $dateTimeAdded);
+                $stmt->bindParam(":rfidNo", $rfidNo);
+                $stmt->bindParam(":excavatorNo", $excavatorNo);
+                $stmt->bindParam(":location", $location);
+                $status = $stmt->execute();
+            }
             
-        // }
-        // else { //clock in
-        //     $conn_manager = new ConnectionManager();
-        //     $pdo = $conn_manager->getConnection("iot");
-        //     $sql = "select * from rfid where rfidNo=:rfidNo";
-        //     $stmt = $pdo->prepare($sql);
-        //     $stmt->execute();
+        }
+        else { //clock in
+            $conn_manager = new ConnectionManager();
+            $pdo = $conn_manager->getConnection("iot");
+            $sql = "select * from rfid where rfidNo=:rfidNo";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
     
-        //     $employeeName = '';
-        //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        //     if ($row = $stmt->fetch()) {
-        //         $employeeName = $row["employeeName"];
-        //     }
+            $employeeName = '';
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            if ($row = $stmt->fetch()) {
+                $employeeName = $row["employeeName"];
+            }
 
-        //     $conn_manager = new ConnectionManager();
-        //     $pdo = $conn_manager->getConnection("iot");
-        //     $sql = "insert into operatorAttendance (rfidNo, employeeName, location, excavatorNo, starttime, dateTimeAdded) values (:rfidNo,:employeeName,:location,:excavatorNo,:starttime,:dateTimeAdded);";
-        //     $stmt = $pdo->prepare($sql);
-        //     $stmt->bindParam(":dateTimeAdded", $dateTimeAdded);
-        //     $stmt->bindParam(":rfidNo", $rfidNo);
-        //     $stmt->bindParam(":employeeName", $employeeName);
-        //     $stmt->bindParam(":excavatorNo", $excavatorNo);
-        //     $stmt->bindParam(":location", $location);
-        //     $stmt->bindParam(":starttime", $starttime);
-        //     $status = $stmt->execute();
+            $conn_manager = new ConnectionManager();
+            $pdo = $conn_manager->getConnection("iot");
+            $sql = "insert into operatorAttendance (rfidNo, employeeName, location, excavatorNo, starttime, dateTimeAdded) values (:rfidNo,:employeeName,:location,:excavatorNo,:starttime,:dateTimeAdded);";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(":dateTimeAdded", $dateTimeAdded);
+            $stmt->bindParam(":rfidNo", $rfidNo);
+            $stmt->bindParam(":employeeName", $employeeName);
+            $stmt->bindParam(":excavatorNo", $excavatorNo);
+            $stmt->bindParam(":location", $location);
+            $stmt->bindParam(":starttime", $starttime);
+            $status = $stmt->execute();
         
-        // }
-        // // var_dump($rfid);
+        }
+        // var_dump($rfid);
 
-        // $stmt = null;
-        // $pdo = null;
-        // return $status;
+        $stmt = null;
+        $pdo = null;
+        return $status;
     }
     
 

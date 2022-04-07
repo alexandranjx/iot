@@ -202,7 +202,7 @@ $job = $dao->retrieveOperatorAttendance('Peter');
         var getRFID;
             var x;
             function loadRFID(){
-                $.getJSON("https://api.thingspeak.com/channels/1691373/feeds.json?api_key=8P1WU7PY4Q44PQ8B&results=2", function(result){
+                $.getJSON("https://api.thingspeak.com/channels/1691373/fields/1/last.json?api_key=8P1WU7PY4Q44PQ8B", function(result){
                 var m = result;
                 x=Number(m.field1); 
             }).done(function() {
@@ -212,7 +212,7 @@ $job = $dao->retrieveOperatorAttendance('Peter');
                 loadRFID();
                     }, 9000);
                     function initialize() {
-                        xmlhttp.open("GET","processAdAttendance.php?rfidNo="+x,true);
+                        xmlhttp.open("GET","processAddAttendance.php?rfidNo="+x,true);
                         xmlhttp.send();
                     }
 

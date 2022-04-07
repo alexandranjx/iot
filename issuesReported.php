@@ -140,23 +140,42 @@ $job = $dao->retrieveAll();
                                             <th class="border-top-0">Location</th>
                                             <th class="border-top-0">Issue</th>
                                             <th class="border-top-0">Report By</th>
-                                            <th class="border-top-0">Report Date</th> 
+                                            <th class="border-top-0">Report Date</th>
+                                            <th class="border-top-0">Solved</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
                                             $i = 1;
+                                           
+                                            date_default_timezone_set( 'Asia/Singapore');
+                                            $dateTimeAdded = date("Y-m-d");
                                             echo "<ul id='myUL' style='list-style-type: none; padding: 0;'>";
                                             foreach ($job as $job1){
                                                 $employeeJob = $job1->getDateAdded();
-                                                echo "<tr value='{$employeeJob}'>
+                                                if($employeeJob == $dateTimeAdded ){
+                                                    echo "<tr value='{$employeeJob}'>
                                                     <td> $i </td>
                                                     <td> {$job1->getExcavatorNo()}</td>
                                                     <td> {$job1->getLocation()}</td>
                                                     <td> {$job1->getIssue()}</td>
                                                     <td> {$job1->getEmployeeName()}</td>
                                                     <td> {$job1->getDateAdded()}</td>
+                                                    <td> No </td>
+                                                    </tr>";
+                                                }
+                                                else{
+                                                    echo "<tr value='{$employeeJob}'>
+                                                    <td> $i </td>
+                                                    <td> {$job1->getExcavatorNo()}</td>
+                                                    <td> {$job1->getLocation()}</td>
+                                                    <td> {$job1->getIssue()}</td>
+                                                    <td> {$job1->getEmployeeName()}</td>
+                                                    <td> {$job1->getDateAdded()}</td>
+                                                    <td> Yes </td>
                                                 </tr>";
+                                                }
+
                                                 $i++;
                                             }
                                         ?>
